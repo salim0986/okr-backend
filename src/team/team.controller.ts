@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { TeamService } from './team.service';
 import { CreateTeamDto, UpdateTeamDto } from './team.dto';
-import { Roles } from 'src/auth/auth-decorators';
+import { Public, Roles } from 'src/auth/auth-decorators';
 import { Role } from 'src/user/user.entity';
 
 @Controller('team')
@@ -30,12 +30,12 @@ export class TeamController {
     return this.service.findAll();
   }
   @Get('organization/:organizationId')
-  @Roles(Role.ADMIN, Role.ORG_ADMIN)
+  @Public()
   findByOrganization(@Param('organizationId') id: string) {
     return this.service.findByOrganization(id);
   }
   @Get('department/:departmentId')
-  @Roles(Role.ADMIN, Role.ORG_ADMIN, Role.DEPT_MANAGER)
+  @Public()
   findByDepartment(@Param('department') id: string) {
     return this.service.findByDepartment(id);
   }

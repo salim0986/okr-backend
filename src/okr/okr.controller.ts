@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { OkrService } from './okr.service';
 import { CreateObjectiveDto, UpdateObjectiveDto } from './okr.dto';
-import { Roles } from 'src/auth/auth-decorators';
+import { Public, Roles } from 'src/auth/auth-decorators';
 import { Role } from 'src/user/user.entity';
 
 @Controller('okr')
@@ -25,13 +25,7 @@ export class OkrController {
   }
 
   @Get()
-  @Roles(
-    Role.ADMIN,
-    Role.ORG_ADMIN,
-    Role.DEPT_MANAGER,
-    Role.TEAM_LEAD,
-    Role.EMPLOYEE,
-  )
+  @Public()
   findAll() {
     return this.service.findAll();
   }
@@ -46,25 +40,13 @@ export class OkrController {
     return this.service.findByDepartment(id);
   }
   @Get('team/:id')
-  @Roles(
-    Role.ADMIN,
-    Role.ORG_ADMIN,
-    Role.DEPT_MANAGER,
-    Role.TEAM_LEAD,
-    Role.EMPLOYEE,
-  )
+  @Public()
   findByTeam(@Param('id') id: string) {
     return this.service.findByTeam(id);
   }
 
   @Get(':id')
-  @Roles(
-    Role.ADMIN,
-    Role.ORG_ADMIN,
-    Role.DEPT_MANAGER,
-    Role.TEAM_LEAD,
-    Role.EMPLOYEE,
-  )
+  @Public()
   findOne(@Param('id') id: string) {
     return this.service.findById(id);
   }
